@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+var reverse = flag.Bool("r", false, "reverse the result")
+
 func run() int {
 	return 0
 }
