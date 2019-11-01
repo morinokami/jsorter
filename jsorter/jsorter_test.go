@@ -14,8 +14,14 @@ func TestSort(t *testing.T) {
 		exp         interface{}
 	}{
 		{
-			txt:         "invalid JSON",
+			txt:         "invalid JSON 1",
 			orig:        []byte("I'm JSON"),
+			errExpected: true,
+			exp:         ErrInvalidJSON,
+		},
+		{
+			txt:         "invalid JSON 2",
+			orig:        []byte(`{"example":2:]}}`),
 			errExpected: true,
 			exp:         ErrInvalidJSON,
 		},
