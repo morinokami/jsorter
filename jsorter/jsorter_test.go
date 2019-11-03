@@ -397,6 +397,72 @@ func TestSort(t *testing.T) {
   }
 }`,
 		},
+		{
+			desc: "Reverse 1",
+			orig: `{
+  "name":"John",
+  "age":30
+}`,
+			reverse: true,
+			exp: `{
+  "name": "John",
+  "age":30
+}`,
+		},
+		{
+			desc: "Reverse 2",
+			orig: `{
+  "glossary":{
+    "title":"example glossary",
+    "GlossDiv":{
+      "title":"S",
+      "GlossList":{
+        "GlossEntry":{
+          "ID":"SGML",
+          "SortAs":"SGML",
+          "GlossTerm":"Standard Generalized Markup Language",
+          "Acronym":"SGML",
+          "Abbrev":"ISO 8879:1986",
+          "GlossDef":{
+            "para":"A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso":[
+              "GML",
+              "XML"
+            ]
+          },
+          "GlossSee":"markup"
+        }
+      }
+    }
+  }
+}`,
+			reverse: true,
+			exp: `{
+  "glossary":{
+    "title":"example glossary",
+    "GlossDiv":{
+      "title":"S",
+      "GlossList":{
+        "GlossEntry":{
+          "SortAs":"SGML",
+          "ID":"SGML",
+          "GlossTerm":"Standard Generalized Markup Language",
+          "GlossSee":"markup",
+          "GlossDef":{
+            "para":"A meta-markup language, used to create markup languages such as DocBook.",
+            "GlossSeeAlso":[
+              "GML",
+              "XML"
+            ]
+          },
+          "Acronym":"SGML",
+          "Abbrev":"ISO 8879:1986"
+        }
+      }
+    }
+  }
+}`,
+		},
 	}
 
 	for _, tc := range ts {

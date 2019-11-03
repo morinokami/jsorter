@@ -15,26 +15,30 @@ func format(d interface{}) ([]byte, error) {
 	return json.MarshalIndent(d, prefix, indent)
 }
 
-func sortedKeys(m map[string]interface{}) []string {
+func sortedKeys(m map[string]interface{}, reverse bool) []string {
 	keys := make([]string, 0, len(m))
 	for k := range m {
 		keys = append(keys, k)
 	}
-	sort.Strings(keys)
+	if reverse {
+		sort.Sort(sort.Reverse(sort.StringSlice(keys)))
+	} else {
+		sort.Strings(keys)
+	}
 	return keys
 }
 
-func sorter(d interface{}) interface{} {
+func sorter(d interface{}, reverse bool) interface{} {
 	switch reflect.TypeOf(d).Kind() {
 	case reflect.Map:
 		// extract keys
 		m, _ := d.(map[string]interface{})
-		keys := sortedKeys(m)
+		keys := sortedKeys(m, reverse)
 
 		// sort the value of each key
 		res := orderedmap{}
 		for _, key := range keys {
-			i := item{key, sorter(m[key])}
+			i := item{key, sorter(m[key], reverse)}
 			res = append(res, i)
 		}
 
@@ -44,7 +48,7 @@ func sorter(d interface{}) interface{} {
 		s, _ := d.([]interface{})
 		for i, v := range s {
 			if v != nil {
-				s[i] = sorter(v)
+				s[i] = sorter(v, reverse)
 			}
 		}
 
@@ -61,5 +65,5 @@ func Sort(d []byte, reverse bool) ([]byte, error) {
 		return nil, err
 	}
 
-	return format(sorter(i))
+	return format(sorter(i, reverse))
 }
