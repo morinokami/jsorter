@@ -24,7 +24,7 @@ func run() int {
 		return 1
 	}
 
-	fmt.Println(result)
+	fmt.Println(string(result))
 
 	return 0
 }
