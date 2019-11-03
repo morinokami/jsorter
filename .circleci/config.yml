@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.13.4
+    working_directory: /go/src/github.com/morinokami/jsorter
+    steps:
+      - checkout
+      - run: make test
