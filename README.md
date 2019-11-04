@@ -1,5 +1,6 @@
 ## jsorter
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/morinokami/jsorter)](https://goreportcard.com/report/github.com/morinokami/jsorter)
 [![CircleCI](https://circleci.com/gh/morinokami/jsorter.svg?style=svg)](https://circleci.com/gh/morinokami/jsorter)
 
 jsorter sorts a JSON input and outputs the result.
