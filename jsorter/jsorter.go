@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"reflect"
 	"sort"
+	"strings"
 )
 
 var (
@@ -11,8 +12,8 @@ var (
 	indent = "  "
 )
 
-func format(d interface{}) ([]byte, error) {
-	return json.MarshalIndent(d, prefix, indent)
+func format(d interface{}, indent int) ([]byte, error) {
+	return json.MarshalIndent(d, prefix, strings.Repeat(" ", indent))
 }
 
 func sortedKeys(m map[string]interface{}, reverse bool) []string {
@@ -59,11 +60,11 @@ func sorter(d interface{}, reverse bool) interface{} {
 }
 
 // Sort sorts the JSON data and returns the result.
-func Sort(d []byte, reverse bool) ([]byte, error) {
+func Sort(d []byte, reverse bool, indent int) ([]byte, error) {
 	var i interface{}
 	if err := json.Unmarshal(d, &i); err != nil {
 		return nil, err
 	}
 
-	return format(sorter(i, reverse))
+	return format(sorter(i, reverse), indent)
 }

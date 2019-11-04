@@ -26,11 +26,11 @@ func TestSort(t *testing.T) {
 		{
 			desc: "Valid JSON 1",
 			orig: `{
-  "name":"John",
-  "age":30
+  "name": "John",
+  "age": 30
 }`,
 			exp: `{
-  "age":30,
+  "age": 30,
   "name": "John"
 }`,
 		},
@@ -406,7 +406,7 @@ func TestSort(t *testing.T) {
 			reverse: true,
 			exp: `{
   "name": "John",
-  "age":30
+  "age": 30
 }`,
 		},
 		{
@@ -468,7 +468,7 @@ func TestSort(t *testing.T) {
 	for _, tc := range ts {
 		t.Log(tc.desc)
 
-		result, err := Sort([]byte(tc.orig), tc.reverse)
+		result, err := Sort([]byte(tc.orig), tc.reverse, 2)
 
 		if tc.errExpected {
 			if err == nil {
@@ -484,6 +484,79 @@ func TestSort(t *testing.T) {
 
 		if strings.ReplaceAll(string(result), " ", "") != strings.ReplaceAll(tc.exp, " ", "") {
 			t.Error("Not sorted as expected!")
+			t.Error("Original:", tc.orig)
+			t.Error("Expected:", tc.exp)
+			t.Error("Got:", string(result))
+			t.FailNow()
+		}
+	}
+}
+
+func TestIndent(t *testing.T) {
+	ts := []struct {
+		desc   string
+		orig   string
+		indent int
+		exp    string
+	}{
+		{
+			desc: "Indent 1",
+			orig: `{
+  "name":"John",
+  "age":30
+}`,
+			indent: 1,
+			exp: `{
+ "age": 30,
+ "name": "John"
+}`,
+		},
+		{
+			desc: "Indent 2",
+			orig: `{
+  "name":"John",
+  "age":30
+}`,
+			indent: 4,
+			exp: `{
+    "age": 30,
+    "name": "John"
+}`,
+		},
+		{
+			desc: "Indent 3",
+			orig: `{
+  "name":"John",
+  "age":30,
+  "lang": [
+    "en",
+    "ja"
+  ]
+}`,
+			indent: 3,
+			exp: `{
+   "age": 30,
+   "lang": [
+      "en",
+      "ja"
+   ],
+   "name": "John"
+}`,
+		},
+	}
+
+	for _, tc := range ts {
+		t.Log(tc.desc)
+
+		result, err := Sort([]byte(tc.orig), false, tc.indent)
+
+		if err != nil {
+			t.Errorf("Unexpected error: %s", err)
+			continue
+		}
+
+		if string(result) != tc.exp {
+			t.Error("Wrong Indentation!")
 			t.Error("Original:", tc.orig)
 			t.Error("Expected:", tc.exp)
 			t.Error("Got:", string(result))

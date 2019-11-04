@@ -9,7 +9,10 @@ import (
 	"github.com/morinokami/jsorter/jsorter"
 )
 
-var reverse = flag.Bool("r", false, "reverse the result")
+var (
+	reverse = flag.Bool("r", false, "reverse the result")
+	indent  = flag.Int("i", 2, "the number of spaces used for indentation")
+)
 
 func run() int {
 	b, err := ioutil.ReadAll(os.Stdin)
@@ -18,7 +21,7 @@ func run() int {
 		return 1
 	}
 
-	result, err := jsorter.Sort(b, *reverse)
+	result, err := jsorter.Sort(b, *reverse, *indent)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 1

@@ -80,6 +80,29 @@ $ jsorter -r < sample.json # Reverse order
     "id": "file"
   }
 }
+$ jsorter -i 4 < sample.json # Change the number of spaces used for indentation
+{
+    "menu": {
+        "id": "file",
+        "popup": {
+            "menuitem": [
+                {
+                    "onclick": "CreateNewDoc()",
+                    "value": "New"
+                },
+                {
+                    "onclick": "OpenDoc()",
+                    "value": "Open"
+                },
+                {
+                    "onclick": "CloseDoc()",
+                    "value": "Close"
+                }
+            ]
+        },
+        "value": "File"
+    }
+}
 $ curl -s https://jsonplaceholder.typicode.com/users/1 | jsorter # Piping
 {
   "address": {
