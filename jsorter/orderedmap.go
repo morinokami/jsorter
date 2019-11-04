@@ -49,6 +49,9 @@ func (om orderedmap) MarshalJSON() ([]byte, error) {
 			return nil, err
 		}
 		_, err = buf.Write(value)
+		if err != nil {
+			return nil, err
+		}
 	}
 	if err != nil {
 		return nil, err
